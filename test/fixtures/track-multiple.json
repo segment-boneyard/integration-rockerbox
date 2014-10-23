@@ -1,0 +1,40 @@
+{
+  "settings": {
+    "source": "bonobos",
+    "allAnSeg": "1631414",
+    "customerAnSeg": "1675564",
+    "events": [
+      {
+        "key": "play",
+        "value": {
+          "conversionId": "6137ab24",
+          "segmentId": "50",
+          "property": "userId"
+        }
+      },
+      {
+        "key": "play",
+        "value": {
+          "conversionId": "e3196de1",
+          "segmentId": "10",
+          "property": "orderId"
+        }
+      }
+    ]
+  },
+  "input": {
+    "type": "track",
+    "userId": "12345678910",
+    "timestamp": "2014",
+    "event": "play",
+    "context": {
+      "ip": "10.0.0.1"
+    }
+  },
+  "output": {
+    "type": "track",
+    "id": "e3196de1",
+    "an_seg": "10",
+    "type": "conv"
+  }
+}
