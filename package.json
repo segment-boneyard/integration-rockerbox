@@ -25,10 +25,9 @@
     "mocha": "*",
     "qs": "^2.3.1",
     "segmentio-facade": "2.x",
-    "segmentio-integration-tester": "^1.0.5",
+    "segmentio-integration-tester": "1.x",
     "should": "^4.1.0",
-    "uid": "0.0.2",
-    "integration-tester": "1.x"
+    "uid": "0.0.2"
   },
   "publishConfig": {
     "registry": "https://segmentio.registry.nodejitsu.com"
