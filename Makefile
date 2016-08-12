@@ -1,34 +1,81 @@
+##
+# Binaries
+##
 
-TESTS = $(wildcard test/*.js)
-SRC = $(wildcard lib/*.js)
-GREP ?=.
+ESLINT := node_modules/.bin/eslint
+KARMA := node_modules/.bin/karma
 
-build: node_modules
+##
+# Files
+##
 
-node_modules: package.json
-	@npm install 
+LIBS = $(shell find lib -type f -name "*.js")
+TESTS = $(shell find test -type f -name "*.test.js")
+SUPPORT = $(wildcard karma.conf*.js)
+ALL_FILES = $(LIBS) $(TESTS) $(SUPPORT)
 
-test:
-	@TZ=UTC ./node_modules/.bin/mocha $(TESTS) \
-		--timeout 20000 \
-		--require should \
-		--reporter spec \
-		--inline-diffs \
-		--grep "$(GREP)"
+##
+# Program options/flags
+##
 
-test-cov:
-	@TZ=UTC ./node_modules/.bin/istanbul cover \
-	  node_modules/.bin/_mocha -- $(TESTS) \
-			--timeout 20s \
-			--require should \
-			--reporter spec \
-			--inline-diffs \
-			--ui exports
+# A list of options to pass to Karma
+# Overriding this overwrites all options specified in this file (e.g. BROWSERS)
+KARMA_FLAGS ?=
 
-test-style:
-	@node_modules/.bin/jscs lib
+# A list of Karma browser launchers to run
+# http://karma-runner.github.io/0.13/config/browsers.html
+BROWSERS ?=
+ifdef BROWSERS
+KARMA_FLAGS += --browsers $(BROWSERS)
+endif
 
+ifdef CI
+KARMA_CONF ?= karma.conf.ci.js
+else
+KARMA_CONF ?= karma.conf.js
+endif
+
+# Mocha flags.
+GREP ?= .
+
+##
+# Tasks
+##
+
+# Install node modules.
+node_modules: package.json $(wildcard node_modules/*/package.json)
+	@npm install
+	@touch $@
+
+# Install dependencies.
+install: node_modules
+
+# Remove temporary files and build artifacts.
 clean:
-	rm -rf coverage node_modules *.log
+	rm -rf *.log coverage
+.PHONY: clean
 
-.PHONY: test test-cov test-style build
+# Remove temporary files, build artifacts, and vendor dependencies.
+distclean: clean
+	rm -rf node_modules
+.PHONY: distclean
+
+# Lint JavaScript source files.
+lint: install
+	@$(ESLINT) $(ALL_FILES)
+.PHONY: lint
+
+# Attempt to fix linting errors.
+fmt: install
+	@$(ESLINT) --fix $(ALL_FILES)
+.PHONY: fmt
+
+# Run browser unit tests in a browser.
+test-browser: install
+	@$(KARMA) start $(KARMA_FLAGS) $(KARMA_CONF) --port 9001
+
+# Default test target.
+test: lint test-browser
+.PHONY: test
+.DEFAULT_GOAL = test
+

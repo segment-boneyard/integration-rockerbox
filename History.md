@@ -1,3 +1,8 @@
+1.0.7 / 2016-07-12
+==================
+
+ * Changing from server-side to client side integration
+
 
 1.0.6 / 2014-12-08
 ==================

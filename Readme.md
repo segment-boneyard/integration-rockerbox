@@ -2,5 +2,5 @@
 
 # integration-rockerbox
 
-Rockerbox server-side integration for Segment.
+Rockerbox client-side integration for Segment.
 
