@@ -53,6 +53,11 @@ describe('Rockerbox Pixel', function() {
       it('should create track object', function() {
         analytics.assert(window.RB.track instanceof Function);
       });
+
+      it('should queue events to be tracked', function() {
+          window.RB.track('view')
+          analytics.assert(window.RB.queue.length == 1);
+      });
     });
   });
 
@@ -60,6 +65,9 @@ describe('Rockerbox Pixel', function() {
     it('should load', function(done) {
       analytics.load(rockerboxPixel, done);
     });
+
+
+
   });
 
   describe('after loading', function() {
