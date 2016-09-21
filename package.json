@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "batch": "^0.5.1",
-    "segmentio-integration": "^3.0.5"
+    "segmentio-integration": "^5.0.1"
   },
   "devDependencies": {
     "clone": "^0.1.18",
