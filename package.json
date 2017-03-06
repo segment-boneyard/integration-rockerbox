@@ -1,7 +1,7 @@
 {
   "name": "@segment/integration-rockerbox",
   "version": "1.1.1",
-  "private": true,
+  
   "description": "Rockerbox server-side integration",
   "author": "Segment <friends@segment.com>",
   "repository": {
